@@ -1,6 +1,6 @@
   // Set Global var based on JavaScript Best Practices.
   
-  var countDown
+  var countDownT
   var countdownU 
   var questionNum
   
@@ -99,10 +99,9 @@ function showPage( page ){
   document.querySelector(`#${page}`).classList.remove('d-none')
 }
 
-// The finish line - How it will end (Scoreboard and reset the game.)
-  function finishQuiz(event){
-    if( event ) event.preventDefault()
-      // stop the countdown
-    clearInterval( countdownTimer )
-    // show score page
-    showPage( 'scorePage' )}
+
+//=============THE FINISH LINE - How it will end (Scoreboard and reset the game==================//
+  // function finishLine(event){
+ 
+  // }
+  
