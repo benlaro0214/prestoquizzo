@@ -23,9 +23,9 @@ correct: "answer8" }
 
 //The following is the timepiece. The stopwatch indicating the amount of time that is allocated for the test and the reset of said quiz.
 
-//BEGINING OF TIMEPIECE
+//============BEGINING OF TIMEPIECE===============//
 
-function timerDecreaseAndDisplay( byValue=1 ){
+function timerDandD( byValue=1 ){
   // decrease by the value passed in, or if nothing, by 1
   countdownValue -= byValue
   document.querySelector('#countdown').textContent = countdownValue
@@ -35,8 +35,8 @@ function timerDecreaseAndDisplay( byValue=1 ){
 
 function startQuiz(){
   questionNum = 0  //Which question is it starting from?
-  countdownValue = 20 // How much time are you giving people to take this quiz? This is measured in seconds. 
-  countdownTimer = setInterval( timerDecreaseAndDisplay, 1000 ) //interval between seconds. 
+  countdownValue = 20 // How much time are you giving people to take this quiz? This is measured in seconds (i.e. 60 = one minute). 
+  countdownTimer = setInterval( timerDandD, 1000 ) //interval between seconds. 
   // switch back to the quizPage
  // showPage( 'quizPage' )
   //showNextQuestion()
@@ -44,32 +44,65 @@ function startQuiz(){
 startQuiz()
 
 function clockStop(event) {
-if( event ) event.preventDefault()
-// stop the countdown
-clearInterval( countdownTimer )
-// show score page
-showPage( 'scorePage' )
+  if( event ) event.preventDefault()
+ //  stop the countdown
+  clearInterval( countdownTimer )
+//   show score page
+  showPage( 'scorePage' )
+  }
+  
+  
+//=============END OF TIMEPIECE=================//
+
+//========BEGINNING OF QUESTION ENGINE==========//
+
+function showNextQuestion(){
+  var question = questions[questionNum]
+  var questionEl = document.querySelector('#questionBox')
+  // display question
+  questionEl.innerHTML = `
+    <div class="alert alert-warning"><h3>${question.question}</h3>
+    `
+  // loop through and show each answer as a button
+  for( var i=0; i < question.answers.length; i++ ){
+    var answer = question.answers[i]
+    questionEl.innerHTML += `
+    <button onClick="selectAnswer(event,'${answer}')" class="btn btn-secondary btn-block">${answer}</button>
+    `
+  }
 }
 
-//---END OF TIMEPIECE
-
-// function start-line - where your quiz starts
-
-
-
-// function questions - Where the vars for the questions get used.
-
-function questionPart(){
-  console.log("questionpart done");
+function selectAnswer( event,answer ){
+  event.preventDefault()
+  console.log( `question answer id: ${answer}` )
+  if( answer===questions[questionNum].correct ){
+  } else {
+     timerDecreaseAndDisplay(10)
+  }
+  questionNum++
+  // decide to show next question (if more), else end quiz
+  if( questionNum<questions.length )
+    showNextQuestion()
+  else
+    finishQuiz()
 }
 
+//===========END OF QUESTION ENGINE==========//
 
-// function UI - How it all lays out.
-function userInt(){
+//=========UI FUNCTIONS ==============//
 
-
+function showPage( page ){
+  // hide all pages
+  document.querySelector('#quizPage').classList.add('d-none')
+  document.querySelector('#scorePage').classList.add('d-none')
+  // show selected page
+  document.querySelector(`#${page}`).classList.remove('d-none')
 }
 
 // The finish line - How it will end (Scoreboard and reset the game.)
-//function finishLine(event) {
- // startQuiz()
+  function finishQuiz(event){
+    if( event ) event.preventDefault()
+      // stop the countdown
+    clearInterval( countdownTimer )
+    // show score page
+    showPage( 'scorePage' )}
