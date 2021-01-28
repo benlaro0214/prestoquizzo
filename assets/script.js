@@ -1,7 +1,7 @@
   // Set Global var based on JavaScript Best Practices.
   
   var countDownT
-  var countdownU 
+  var countdownvVal 
   var questionNum
   
   //this is where the questions begin. you can add more by copy and pasting the code for the questions.
@@ -27,16 +27,16 @@ correct: "answer8" }
 
 function timerDandD( byValue=1 ){
   // decrease by the value passed in, or if nothing, by 1
-  countdownValue -= byValue
-  document.querySelector('#countdown').textContent = countdownValue
-  if( countdownValue<1 )
+  countdownVal -= byValue
+  document.querySelector('#countdown').textContent = countdownVal
+  if( countdownVal<1 )
     finishLine()
 }
 
 function startQuiz(){
   questionNum = 0  //Which question is it starting from?
-  countdownValue = 20 // How much time are you giving people to take this quiz? This is measured in seconds (i.e. 60 = one minute). 
-  countdownTimer = setInterval( timerDandD, 1000 ) //interval between seconds. 
+  countdownVal = 60 // How much time are you giving people to take this quiz? This is measured in seconds (i.e. 60 = one minute). 
+  countDownT = setInterval( timerDandD, 1000 ) //interval between seconds. 
   // switch back to the quizPage
  // showPage( 'quizPage' )
   //showNextQuestion()
@@ -46,7 +46,7 @@ startQuiz()
 function clockStop(event) {
   if( event ) event.preventDefault()
  //  stop the countdown
-  clearInterval( countdownTimer )
+  clearInterval( countdownT )
 //   show score page
   showPage( 'scorePage' )
   }
