@@ -1,9 +1,8 @@
   // Set Global var based on JavaScript Best Practices.
-  
-  var countDownT
-  var countdownU 
+  var countdownTimer
+  var countdownValue 
   var questionNum
-  
+
   //this is where the questions begin. you can add more by copy and pasting the code for the questions.
   var questions = [
 // Question 1
@@ -25,17 +24,9 @@ correct: "42" }
 
 //============BEGINING OF TIMEPIECE===============//
 
-function timerDandD( byValue=1 ){
-  // decrease by the value passed in, or if nothing, by 1
-  countdownValue -= byValue
-  document.querySelector('#countdown').textContent = countdownValue
-  if( countdownValue<1 )
-    finishLine()
-}
-
 function startQuiz(){
   questionNum = 0  //Which question is it starting from?
-  countdownValue = 60 // How much time are you giving people to take this quiz? This is measured in seconds (i.e. 60 = one minute). 
+  countdownValue = 0 // How much time are you giving people to take this quiz? This is measured in seconds (i.e. 60 = one minute). 
   countdownTimer = setInterval( timerDandD, 1000 ) //interval between seconds. 
   // switch back to the quizPage
  showPage( 'quizPage')
@@ -43,10 +34,19 @@ function startQuiz(){
 }
 startQuiz()
 
+function timerDandD( byValue=1 ){
+  // decrease by the value passed in, or if nothing, by 1
+  countdownValue += byValue
+  document.querySelector('#countdown').textContent = countdownValue
+  if( countdownValue<1 )
+    finishLine()
+}
+
 function clockStop(event) {
   if( event ) event.preventDefault()
  //  stop the countdown
   clearInterval( countdownTimer )
+ // get the amount of time that was done. 
 //   show score page
   finishLine( 'scorePage' )
   }
@@ -84,7 +84,7 @@ function selectAnswer( event,answer ){
   if( questionNum<questions.length )
     showNextQuestion()
   else
-    finishQuiz()
+  clockStop(event)
 }
 
 //===========END OF QUESTION ENGINE==========//
@@ -94,8 +94,6 @@ function selectAnswer( event,answer ){
 function showPage( page ){
   // hide all pages
   document.querySelector('#quizPage').classList.add('d-none')
-  //document.querySelector('#scorePage').classList.add('d-none')
-  // show selected page
   document.querySelector(`#${page}`).classList.remove('d-none')
 }
 
@@ -104,5 +102,6 @@ function showPage( page ){
   function finishLine( finalscore ){
     document.querySelector('#scorePage').classList.add('d-none')
     document.querySelector(`#${finalscore}`).classList.remove('d-none')
+    
   }
   
